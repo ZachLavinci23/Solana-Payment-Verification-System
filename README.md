@@ -321,7 +321,9 @@ The key innovation in this system is how it determines when a payment has been m
 **Additional Implementation Details**
 
 **Transaction Processing Logic**
+<br>
 The core verification algorithm works by analyzing transaction data from the Solana blockchain:
+<br>
 
 **1. Time-Based Filtering:** The system looks only at transactions that occurred after the payment request was created, ensuring that old transactions aren't accidentally counted as new payments.
 <br>
