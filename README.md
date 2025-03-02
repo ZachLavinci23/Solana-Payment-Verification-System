@@ -324,8 +324,11 @@ The key innovation in this system is how it determines when a payment has been m
 The core verification algorithm works by analyzing transaction data from the Solana blockchain:
 
 **1. Time-Based Filtering:** The system looks only at transactions that occurred after the payment request was created, ensuring that old transactions aren't accidentally counted as new payments.
+<br>
 **2. Balance Change Analysis:** Rather than relying on transaction memos or other metadata, the system simply checks whether the treasury wallet's balance increased by the expected amount. This is a simple but robust approach that works regardless of how the user initiates the transaction.
+<br>
 **3. Variance Handling:** The check Math.abs(balanceChange - payment.amountLamports) < 1000 allows for a small difference between the requested amount and received amount, which accommodates network fees that might be deducted from the transaction.
+<br>
 
 **Memory Management Approach**
 The in-memory storage (this.pendingPayments) is designed to be efficient but needs periodic cleanup:
