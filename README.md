@@ -316,4 +316,50 @@ The key innovation in this system is how it determines when a payment has been m
 **5. Memory Management:** The cleanup function prevents memory leaks from accumulating payment records.
 <br>
 
+---------------------------------------------------------------------------------------------------------------
 
+**Additional Implementation Details**
+
+**Transaction Processing Logic**
+The core verification algorithm works by analyzing transaction data from the Solana blockchain:
+
+**1. Time-Based Filtering:** The system looks only at transactions that occurred after the payment request was created, ensuring that old transactions aren't accidentally counted as new payments.
+**2. Balance Change Analysis:** Rather than relying on transaction memos or other metadata, the system simply checks whether the treasury wallet's balance increased by the expected amount. This is a simple but robust approach that works regardless of how the user initiates the transaction.
+**3. Variance Handling:** The check Math.abs(balanceChange - payment.amountLamports) < 1000 allows for a small difference between the requested amount and received amount, which accommodates network fees that might be deducted from the transaction.
+
+**Memory Management Approach**
+The in-memory storage (this.pendingPayments) is designed to be efficient but needs periodic cleanup:
+
+**1. Storage Format:** Uses a hash map with payment IDs as keys for O(1) lookup time.
+**2. Cleanup Logic:** The cleanupExpiredPayments() method removes payments that are:
+
+Already confirmed or expired (completed payments)
+Older than 24 hours (to prevent memory leaks)
+
+**3. Recommended Usage:** In a production environment, you should call this cleanup method on a schedule (e.g., via a cron job).
+
+**Error Handling Strategy**
+The system implements comprehensive error handling:
+
+**Input Validation:** Checks for required parameters and valid values before processing.
+**Transaction Errors:** Handles transaction retrieval failures gracefully.
+**Network Errors:** Catches and logs connection issues with the Solana network.
+**Payment Not Found:** Provides clear error messages when payment IDs don't exist.
+
+**Scaling Considerations**
+For high-volume implementations, consider these modifications:
+
+1. Database Storage: Replace the in-memory pendingPayments object with a database table.
+2. Batch Processing: Implement batch retrieval of blockchain data to reduce API calls.
+3. Webhook Workers: Move the payment confirmation polling to background workers.
+4. Transaction Indexing: For very high volumes, maintain your own index of transactions to your treasury wallet.
+
+**Customization Options**
+The system is designed to be extended for specific use cases:
+
+1. Custom Verification Logic: You can subclass SolanaPaymentSystem and override checkPaymentStatus() to add additional verification steps.
+2. Different Networks: The system supports both devnet and mainnet-beta, but you could extend it for other Solana clusters.
+3. Payment Metadata: You can add additional information to the metadata field for tracking purposes.
+4. Custom Confirmation Strategies: The webhook-style callback can be replaced with event emitters, promises, or other notification patterns.
+
+With this implementation and the detailed GitHub README, you have everything you need to integrate Solana payments into your web applications or Telegram bots. The system is designed to be simple yet robust, handling the core payment verification flow while remaining flexible for custom extensions.
