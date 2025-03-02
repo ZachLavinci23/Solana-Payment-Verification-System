@@ -188,11 +188,11 @@ async checkPaymentStatus(paymentId) {
 - Relevant Transactions: Filters for transactions that occurred after the payment was created.
 - Transaction Analysis: For each transaction:
 <ol>
-<li>1. Retrieves the full transaction details </il>
-<li>2. Skips any failed transactions </il>
-<li>3. Compares pre and post balances of your treasury wallet </il>
-<li>4. Checks if the balance change matches the expected payment amount </il>
-<li>5. Allows small variance to account for network fees </il>
+<li> Retrieves the full transaction details </il>
+<li> Skips any failed transactions </il>
+<li> Compares pre and post balances of your treasury wallet </il>
+<li> Checks if the balance change matches the expected payment amount </il>
+<li> Allows small variance to account for network fees </il>
 </ol>
 
 - Confirmation: When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
