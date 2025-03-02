@@ -187,7 +187,6 @@ async checkPaymentStatus(paymentId) {
 - Transaction History: Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
 - Relevant Transactions: Filters for transactions that occurred after the payment was created.
 - Transaction Analysis: For each transaction:
-
 1. Retrieves the full transaction details
 2. Skips any failed transactions
 3. Compares pre and post balances of your treasury wallet
