@@ -65,3 +65,45 @@ constructor(config = {}) {
 - **Pending Payments Storage:** Uses an in-memory JavaScript object to track all payment requests. In a production system, you might want to persist this to a database.
 - **Treasury Wallet:** This is the single wallet address that will receive all user payments. The system validates that it's a properly formatted Solana public key.
 - **Timeout Settings:** Configures how long a payment request remains valid (default: 30 minutes) and how frequently to check for payment confirmation (default: 15 seconds).
+
+---------------------------------------------------------------------------------------------------------------
+
+**Creating Payment Requests**
+```
+async createPaymentRequest(userId, amountSol, metadata = {}) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+  
+  if (!amountSol || amountSol <= 0) {
+    throw new Error('Amount must be greater than 0');
+  }
+  
+  const paymentId = `payment_${userId}_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
+  
+  this.pendingPayments[paymentId] = {
+    userId,
+    amountLamports: amountSol * LAMPORTS_PER_SOL,
+    status: 'pending',
+    createdAt: Date.now(),
+    expiresAt: Date.now() + this.paymentTimeout,
+    metadata
+  };
+  
+  return {
+    paymentId,
+    userId,
+    walletAddress: this.treasuryWallet,
+    amountSol,
+    expiresAt: new Date(this.pendingPayments[paymentId].expiresAt).toISOString()
+  };
+}
+```
+
+
+
+
+
+
+
+
