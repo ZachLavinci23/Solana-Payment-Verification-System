@@ -28,3 +28,42 @@ To integrate this with your Telegram app or website:
 - Create API endpoints to create payment requests and check status
 - On your frontend, show the user the payment address and amount
 - Poll the status endpoint to detect when payment is confirmed
+
+---------------------------------------------------------------------------------------------------------------
+
+**Detailed System Explanation**
+
+**Core Architecture**
+The SolanaPaymentSystem class is the central component that manages all payment operations. Let me explain each part:
+
+Constructor and Configuration:
+```
+constructor(config = {}) {
+  // Default to devnet, but can use mainnet-beta for production
+  this.network = config.network || 'devnet';
+  this.connection = new Connection(clusterApiUrl(this.network), 'confirmed');
+  
+  // Store mapping of user_id to payment addresses and amounts
+  this.pendingPayments = {};
+  
+  // Main treasury wallet to receive all payments
+  this.treasuryWallet = config.treasuryWallet;
+  
+  // Verify this is a valid Solana address
+  if (!this.treasuryWallet) {
+    throw new Error('Treasury wallet public key is required');
+  }
+  
+  try {
+    this.treasuryPublicKey = new PublicKey(this.treasuryWallet);
+  } catch (error) {
+    throw new Error('Invalid treasury wallet public key');
+  }
+  
+  // How long to keep checking for a payment (in milliseconds)
+  this.paymentTimeout = config.paymentTimeout || 30 * 60 * 1000; // 30 minutes default
+  
+  // How frequently to check for payment confirmation (in milliseconds)
+  this.pollInterval = config.pollInterval || 15 * 1000; // 15 seconds default
+}
+```
