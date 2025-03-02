@@ -20,7 +20,7 @@ Features
 <br>
 
 ------------------------------------------------------------------------------------------------------------------------------
-<br>
+
 **Installation**
 
 ```
@@ -30,7 +30,7 @@ npm install solana-payment-system
 # Install dependencies
 npm install @solana/web3.js
 ```
-<br>
+
 **Quick Start**
 
 ```
