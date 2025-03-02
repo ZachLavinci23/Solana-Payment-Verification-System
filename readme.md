@@ -62,9 +62,8 @@ This system implements a simple yet effective approach to verifying Solana payme
 <br>
 **3. Verification:** The system checks the Solana blockchain for recent transactions to your treasury wallet and verifies:\
 <br>
-
-That the transaction occurred after the payment request was created
-That the amount matches the expected payment
+- That the transaction occurred after the payment request was created
+- That the amount matches the expected payment
 
 **4. Confirmation:** Once verified, the system marks the payment as confirmed and you can activate the user's subscription.
 
