@@ -61,7 +61,7 @@ This system implements a simple yet effective approach to verifying Solana payme
 **2. User Payment:** The user is shown your treasury wallet address to send the payment to.
 <br>
 **3. Verification:** The system checks the Solana blockchain for recent transactions to your treasury wallet and verifies:\
-<br>
+
 - That the transaction occurred after the payment request was created
 - That the amount matches the expected payment
 
