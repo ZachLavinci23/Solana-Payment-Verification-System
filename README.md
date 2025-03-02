@@ -182,15 +182,15 @@ async checkPaymentStatus(paymentId) {
 }
 ```
 
-Payment Lookup: Retrieves the payment details from the pending payments store.
+**Payment Lookup:** Retrieves the payment details from the pending payments store.
 <br>
-Quick Checks: Immediately returns if the payment is already confirmed or expired.
+**Quick Checks:** Immediately returns if the payment is already confirmed or expired.
 <br>
-Transaction History: Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
+**Transaction History:** Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
 <br>
-Relevant Transactions: Filters for transactions that occurred after the payment was created.
+**Relevant Transactions:** Filters for transactions that occurred after the payment was created.
 <br>
-Transaction Analysis: For each transaction:
+**Transaction Analysis:** For each transaction:
 <br>
 
 1. Retrieves the full transaction details 
