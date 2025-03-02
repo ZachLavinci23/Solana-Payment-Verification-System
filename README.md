@@ -3,7 +3,8 @@ Solana Payment Verification System
 
 This Solana payment system will handle the exact flow you described. Here's how it works:
 
-**1. Setup:** Initialize the system with your treasury wallet address (where all payments will be sent)
+**1. Setup:** 
+- Initialize the system with your treasury wallet address (where all payments will be sent)
 
 **2. Payment Flow:**
 
