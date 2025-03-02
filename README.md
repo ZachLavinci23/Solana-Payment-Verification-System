@@ -100,11 +100,11 @@ async createPaymentRequest(userId, amountSol, metadata = {}) {
 }
 ```
 
-**Input Validation:** Checks that both the user ID and amount are valid. 
-**Unique Payment ID:** Generates a unique identifier combining the user ID, current timestamp, and random bytes for uniqueness.
-**Payment Details Storage:** Stores the payment information with the following details:
+- **Input Validation:** Checks that both the user ID and amount are valid. 
+- **Unique Payment ID:** Generates a unique identifier combining the user ID, current timestamp, and random bytes for uniqueness.
+- **Payment Details Storage:** Stores the payment information with the following details:
 
-- userId: Links the payment to a specific user
+userId: Links the payment to a specific user
 - amountLamports: Converts SOL to lamports (1 SOL = 1,000,000,000 lamports)
 - status: Tracks payment status (initially "pending")
 - createdAt & expiresAt: Timestamps for payment creation and expiration
