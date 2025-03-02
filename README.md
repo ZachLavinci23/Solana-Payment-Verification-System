@@ -116,9 +116,84 @@ async createPaymentRequest(userId, amountSol, metadata = {}) {
 
 **Return Value:** Returns everything the frontend needs to display to the user, including the treasury wallet address to send funds to and when the payment request expires.
 
+---------------------------------------------------------------------------------------------------------------
+
+**Checking Payment Status**
+
+```
+async checkPaymentStatus(paymentId) {
+  const payment = this.pendingPayments[paymentId];
+  
+  if (!payment) {
+    throw new Error('Payment not found');
+  }
+  
+  if (payment.status === 'confirmed') {
+    return true;
+  }
+  
+  if (Date.now() > payment.expiresAt) {
+    payment.status = 'expired';
+    return false;
+  }
+  
+  try {
+    const signatures = await this.connection.getSignaturesForAddress(
+      this.treasuryPublicKey,
+      { limit: 10 }
+    );
+    
+    const relevantSignatures = signatures.filter(
+      sig => new Date(sig.blockTime * 1000) >= new Date(payment.createdAt)
+    );
+    
+    for (const sig of relevantSignatures) {
+      const tx = await this.connection.getTransaction(sig.signature);
+      
+      if (!tx || !tx.meta || tx.meta.err) {
+        continue; // Skip failed transactions
+      }
+      
+      const preBalances = tx.meta.preBalances;
+      const postBalances = tx.meta.postBalances;
+      const accountKeys = tx.transaction.message.accountKeys;
+      
+      for (let i = 0; i < accountKeys.length; i++) {
+        const key = accountKeys[i].toString();
+        if (key === this.treasuryWallet) {
+          const balanceChange = postBalances[i] - preBalances[i];
+          
+          if (Math.abs(balanceChange - payment.amountLamports) < 1000) {
+            // Payment confirmed!
+            payment.status = 'confirmed';
+            payment.confirmedAt = Date.now();
+            payment.transactionSignature = sig.signature;
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  } catch (error) {
+    console.error('Error checking payment status:', error);
+    return false;
+  }
+}
+```
+
+- Payment Lookup: Retrieves the payment details from the pending payments store.
+- Quick Checks: Immediately returns if the payment is already confirmed or expired.
+- Transaction History: Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
+- Relevant Transactions: Filters for transactions that occurred after the payment was created.
+- Transaction Analysis: For each transaction:
+
+1. Retrieves the full transaction details
+2. Skips any failed transactions
+3. Compares pre and post balances of your treasury wallet
+4. Checks if the balance change matches the expected payment amount
+5. Allows small variance to account for network fees
 
 
-
-
-
-
+- Confirmation: When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
+- Error Handling: Catches and logs any errors during the verification process.
