@@ -182,18 +182,23 @@ async checkPaymentStatus(paymentId) {
 }
 ```
 
-- Payment Lookup: Retrieves the payment details from the pending payments store.
-- Quick Checks: Immediately returns if the payment is already confirmed or expired.
-- Transaction History: Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
-- Relevant Transactions: Filters for transactions that occurred after the payment was created.
-- Transaction Analysis: For each transaction:
-<ol>
-<li> Retrieves the full transaction details </il>
-<li> Skips any failed transactions </il>
-<li> Compares pre and post balances of your treasury wallet </il>
-<li> Checks if the balance change matches the expected payment amount </il>
-<li> Allows small variance to account for network fees </il>
-</ol>
+Payment Lookup: Retrieves the payment details from the pending payments store.
+<br>
+Quick Checks: Immediately returns if the payment is already confirmed or expired.
+<br>
+Transaction History: Queries the Solana blockchain for recent transactions to your treasury wallet (limited to 10 for efficiency).
+<br>
+Relevant Transactions: Filters for transactions that occurred after the payment was created.
+<br>
+Transaction Analysis: For each transaction:
+<br>
+
+1. Retrieves the full transaction details 
+2. Skips any failed transactions 
+3. Compares pre and post balances of your treasury wallet 
+4. Checks if the balance change matches the expected payment amount
+5. Allows small variance to account for network fees
+
 
 - Confirmation: When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
 - Error Handling: Catches and logs any errors during the verification process.
