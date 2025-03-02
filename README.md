@@ -59,3 +59,9 @@ constructor(config = {}) {
   this.pollInterval = config.pollInterval || 15 * 1000; 
 }
 ```
+
+- **Network Configuration:** By default, the system connects to Solana's devnet for testing, but you can specify mainnet-beta for production use.
+- **Connection Setup:** Creates a connection to the Solana blockchain with the confirmed commitment level, which provides a good balance between speed and certainty.
+- **Pending Payments Storage:** Uses an in-memory JavaScript object to track all payment requests. In a production system, you might want to persist this to a database.
+- **Treasury Wallet:** This is the single wallet address that will receive all user payments. The system validates that it's a properly formatted Solana public key.
+- **Timeout Settings:** Configures how long a payment request remains valid (default: 30 minutes) and how frequently to check for payment confirmation (default: 15 seconds).
