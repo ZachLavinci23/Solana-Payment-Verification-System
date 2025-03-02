@@ -29,6 +29,7 @@ To integrate this with your Telegram app or website:
 - On your frontend, show the user the payment address and amount
 - Poll the status endpoint to detect when payment is confirmed
 
+
 ---------------------------------------------------------------------------------------------------------------
 
 **Detailed System Explanation**
