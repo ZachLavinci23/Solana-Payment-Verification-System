@@ -53,6 +53,7 @@ if (isConfirmed) {
 ```
 
 **How It Works**
+<br>
 This system implements a simple yet effective approach to verifying Solana payments:
 
 **1. Payment Request: **When a user initiates a payment, the system generates a unique payment ID and stores expected payment details.
@@ -63,5 +64,7 @@ That the transaction occurred after the payment request was created
 That the amount matches the expected payment
 
 **4. Confirmation:** Once verified, the system marks the payment as confirmed and you can activate the user's subscription.
+
+------------------------------------------------------------------------------------------------------------------------------
 
 **API Reference**
