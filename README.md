@@ -208,3 +208,52 @@ async checkPaymentStatus(paymentId) {
 ---------------------------------------------------------------------------------------------------------------
 
 **Wait For Payment Confirmation**
+```
+async waitForPaymentConfirmation(paymentId, callback) {
+  const payment = this.pendingPayments[paymentId];
+  
+  if (!payment) {
+    callback(new Error('Payment not found'), null);
+    return;
+  }
+  
+  const checkPayment = async () => {
+    try {
+      const isConfirmed = await this.checkPaymentStatus(paymentId);
+      
+      if (isConfirmed) {
+        callback(null, {
+          paymentId,
+          userId: payment.userId,
+          status: 'confirmed',
+          confirmedAt: new Date(payment.confirmedAt).toISOString()
+        });
+        return;
+      }
+      
+      // Check if payment is expired
+      if (Date.now() > payment.expiresAt) {
+        callback(null, {
+          paymentId,
+          userId: payment.userId,
+          status: 'expired',
+          expiresAt: new Date(payment.expiresAt).toISOString()
+        });
+        return;
+      }
+      
+      setTimeout(checkPayment, this.pollInterval);
+    } catch (error) {
+      callback(error, null);
+    }
+  };
+  
+  checkPayment();
+}
+```
+
+- **Webhook-Style Callback:** This method implements a callback-based approach for asynchronous notification when a payment is confirmed.
+- **Recursive Polling:** Creates a function that checks payment status and calls itself again after the polling interval if the payment is still pending.
+- **Confirmation Handling:** When payment is confirmed, it calls the callback with the confirmation details.
+- **Expiration Handling:** Also handles payment expiration and notifies through the callback.
+- **Error Propagation:** Forwards any errors to the callback function.
