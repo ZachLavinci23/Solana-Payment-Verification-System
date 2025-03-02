@@ -101,7 +101,7 @@ async createPaymentRequest(userId, amountSol, metadata = {}) {
 ```
 
 
-**Input Validation:** Checks that both the user ID and amount are valid.
+<p **Input Validation:** Checks that both the user ID and amount are valid. </p>
 **Unique Payment ID:** Generates a unique identifier combining the user ID, current timestamp, and random bytes for uniqueness.
 **Payment Details Storage:** Stores the payment information with the following details:
 
