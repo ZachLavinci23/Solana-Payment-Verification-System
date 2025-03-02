@@ -275,3 +275,62 @@ bot.launch();
 C**ustom Transaction Verification**
 For additional verification logic, you can extend the checkPaymentStatus method:
 
+```
+class CustomPaymentSystem extends SolanaPaymentSystem {
+  async checkPaymentStatus(paymentId) {
+    const isConfirmed = await super.checkPaymentStatus(paymentId);
+    
+    if (isConfirmed) {
+      return true;
+    }
+    
+    return false;
+  }
+}
+```
+
+Database Integration
+
+```
+class PersistentPaymentSystem extends SolanaPaymentSystem {
+  constructor(config) {
+    super(config);
+    this.db = config.database; // Your database connection
+  }
+  
+  async createPaymentRequest(userId, amountSol, metadata = {}) {
+    const payment = await super.createPaymentRequest(userId, amountSol, metadata);
+    
+    await this.db.payments.create({
+      paymentId: payment.paymentId,
+      userId,
+      amountSol,
+      status: 'pending',
+      createdAt: new Date(),
+      expiresAt: new Date(payment.expiresAt)
+    });
+    
+    return payment;
+  }
+  
+}
+```
+
+**Troubleshooting**
+
+**Payment Not Being Detected**
+
+1. Ensure the transaction has been confirmed on the Solana blockchain.
+2. Verify the exact amount matches what was requested.
+3. Check the network configuration (devnet vs. mainnet-beta).
+4. Increase the poll interval and timeout for slow transactions.
+
+**Memory Issues**
+If you're handling a large volume of payments, make sure to:
+
+1. Call cleanupExpiredPayments() regularly (e.g., every hour).
+2. Implement a database-backed version instead of the in-memory storage.
+
+**License**
+MIT
+
