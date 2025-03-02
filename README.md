@@ -1,5 +1,5 @@
 # Solana-Payment-Verification-System
-Solana Payment Verification System
+**Solana Payment Verification System**
 
 This Solana payment system will handle the exact flow you described. Here's how it works:
 
@@ -21,7 +21,8 @@ This Solana payment system will handle the exact flow you described. Here's how 
 - Handles timeout/expiration for pending payments
 - Includes polling mechanism to wait for confirmation
 - Cleanup function to prevent memory leaks
-
+<br>
+<br>
 To integrate this with your Telegram app or website:
 
 - Install the Solana web3.js package: npm install @solana/web3.js
