@@ -2,7 +2,7 @@
 <br>
 A lightweight, secure system for accepting and verifying Solana payments for subscriptions, digital products, or services.
 <br>
-**Features**
+Features
 
 ✅ Simple payment flow: generate a payment address → user pays → system verifies
 <br>
@@ -18,6 +18,7 @@ A lightweight, secure system for accepting and verifying Solana payments for sub
 <br>
 ✅ Comprehensive error handling
 <br>
+
 ------------------------------------------------------------------------------------------------------------------------------
 <br>
 **Installation**
