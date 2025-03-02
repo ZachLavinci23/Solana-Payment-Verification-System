@@ -330,7 +330,3 @@ If you're handling a large volume of payments, make sure to:
 
 1. Call cleanupExpiredPayments() regularly (e.g., every hour).
 2. Implement a database-backed version instead of the in-memory storage.
-
-**License**
-MIT
-
