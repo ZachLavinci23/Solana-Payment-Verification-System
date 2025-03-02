@@ -306,7 +306,14 @@ The key innovation in this system is how it determines when a payment has been m
 **Security Considerations**
 
 **1. Idempotent Processing:** The system is designed to prevent double-counting payments by updating the payment status once confirmed.
+<br>
 **2. Expiration Handling:** Payment requests automatically expire after the configured timeout (default: 30 minutes).
+<br>
 **3. Input Validation:** All input parameters are validated before processing.
+<br>
 **4. Error Handling:** Robust error handling prevents system crashes from unexpected blockchain responses.
+<br>
 **5. Memory Management:** The cleanup function prevents memory leaks from accumulating payment records.
+<br>
+
+
