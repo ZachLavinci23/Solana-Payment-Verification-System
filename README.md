@@ -333,6 +333,7 @@ The core verification algorithm works by analyzing transaction data from the Sol
 <br>
 
 **Memory Management Approach**
+<br>
 The in-memory storage (this.pendingPayments) is designed to be efficient but needs periodic cleanup:
 
 **1. Storage Format:** Uses a hash map with payment IDs as keys for O(1) lookup time.
