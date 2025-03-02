@@ -5,11 +5,17 @@ A lightweight, secure system for accepting and verifying Solana payments for sub
 **Features**
 
 ✅ Simple payment flow: generate a payment address → user pays → system verifies
+<br>
 ✅ Direct blockchain verification (no third-party dependencies)
+<br>
 ✅ Single treasury wallet design (no need to create new wallets)
+<br>
 ✅ Automatic payment expiration and cleanup
+<br>
 ✅ Configurable timeouts and polling intervals
+<br>
 ✅ Webhook-style callback for payment confirmation
+<br>
 ✅ Comprehensive error handling
 <br>
 ------------------------------------------------------------------------------------------------------------------------------
