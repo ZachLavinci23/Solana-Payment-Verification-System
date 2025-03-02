@@ -200,8 +200,10 @@ async checkPaymentStatus(paymentId) {
 5. Allows small variance to account for network fees
 
 
-- Confirmation: When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
-- Error Handling: Catches and logs any errors during the verification process.
+**Confirmation:** When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
+<br>
+**Error Handling:** Catches and logs any errors during the verification process.
+<br>
 
 ---------------------------------------------------------------------------------------------------------------
 
