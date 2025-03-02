@@ -331,6 +331,7 @@ The core verification algorithm works by analyzing transaction data from the Sol
 <br>
 **3. Variance Handling:** The check Math.abs(balanceChange - payment.amountLamports) < 1000 allows for a small difference between the requested amount and received amount, which accommodates network fees that might be deducted from the transaction.
 <br>
+<br>
 
 **Memory Management Approach**
 <br>
