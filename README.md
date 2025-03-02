@@ -39,17 +39,13 @@ The SolanaPaymentSystem class is the central component that manages all payment 
 Constructor and Configuration:
 ```
 constructor(config = {}) {
-  // Default to devnet, but can use mainnet-beta for production
   this.network = config.network || 'devnet';
   this.connection = new Connection(clusterApiUrl(this.network), 'confirmed');
   
-  // Store mapping of user_id to payment addresses and amounts
   this.pendingPayments = {};
   
-  // Main treasury wallet to receive all payments
   this.treasuryWallet = config.treasuryWallet;
   
-  // Verify this is a valid Solana address
   if (!this.treasuryWallet) {
     throw new Error('Treasury wallet public key is required');
   }
@@ -60,10 +56,8 @@ constructor(config = {}) {
     throw new Error('Invalid treasury wallet public key');
   }
   
-  // How long to keep checking for a payment (in milliseconds)
   this.paymentTimeout = config.paymentTimeout || 30 * 60 * 1000; // 30 minutes default
   
-  // How frequently to check for payment confirmation (in milliseconds)
   this.pollInterval = config.pollInterval || 15 * 1000; // 15 seconds default
 }
 ```
