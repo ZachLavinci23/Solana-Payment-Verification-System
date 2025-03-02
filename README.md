@@ -104,11 +104,11 @@ async createPaymentRequest(userId, amountSol, metadata = {}) {
 - **Unique Payment ID:** Generates a unique identifier combining the user ID, current timestamp, and random bytes for uniqueness.
 - **Payment Details Storage:** Stores the payment information with the following details:
 
-userId: Links the payment to a specific user
-- amountLamports: Converts SOL to lamports (1 SOL = 1,000,000,000 lamports)
-- status: Tracks payment status (initially "pending")
-- createdAt & expiresAt: Timestamps for payment creation and expiration
-- metadata: Optional field for additional information
+1. userId: Links the payment to a specific user
+2. amountLamports: Converts SOL to lamports (1 SOL = 1,000,000,000 lamports)
+3. status: Tracks payment status (initially "pending")
+4. createdAt & expiresAt: Timestamps for payment creation and expiration
+5. metadata: Optional field for additional information
 
 
 **Return Value:** Returns everything the frontend needs to display to the user, including the treasury wallet address to send funds to and when the payment request expires.
