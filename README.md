@@ -197,3 +197,7 @@ async checkPaymentStatus(paymentId) {
 
 - Confirmation: When a matching transaction is found, it updates the payment status to "confirmed" and stores the transaction signature.
 - Error Handling: Catches and logs any errors during the verification process.
+
+---------------------------------------------------------------------------------------------------------------
+
+**Wait For Payment Confirmation**
