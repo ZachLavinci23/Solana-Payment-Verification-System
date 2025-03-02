@@ -257,3 +257,56 @@ async waitForPaymentConfirmation(paymentId, callback) {
 - **Confirmation Handling:** When payment is confirmed, it calls the callback with the confirmation details.
 - **Expiration Handling:** Also handles payment expiration and notifies through the callback.
 - **Error Propagation:** Forwards any errors to the callback function.
+
+---------------------------------------------------------------------------------------------------------------
+
+**Additional Utility Methods**
+
+```
+getUserPendingPayments(userId) {
+  return Object.values(this.pendingPayments)
+    .filter(payment => payment.userId === userId && payment.status === 'pending')
+    .map(payment => ({
+      paymentId: Object.keys(this.pendingPayments).find(key => this.pendingPayments[key] === payment),
+      userId: payment.userId,
+      amountSol: payment.amountLamports / LAMPORTS_PER_SOL,
+      createdAt: new Date(payment.createdAt).toISOString(),
+      expiresAt: new Date(payment.expiresAt).toISOString()
+    }));
+}
+
+cleanupExpiredPayments() {
+  const now = Date.now();
+  Object.keys(this.pendingPayments).forEach(paymentId => {
+    const payment = this.pendingPayments[paymentId];
+    if ((payment.status === 'expired' || payment.status === 'confirmed') && 
+        now - payment.createdAt > 24 * 60 * 60 * 1000) {
+      delete this.pendingPayments[paymentId];
+    }
+  });
+}
+```
+
+- **User Pending Payments:** A helper method that retrieves all pending payments for a specific user, which is useful for showing payment history or reminding users of pending payments.
+- **Cleanup Function:** Prevents memory leaks by removing old payment records (ones that are either confirmed or expired and older than 24 hours).
+
+**How the System Authenticates Payments**
+
+The key innovation in this system is how it determines when a payment has been made:
+
+1. Direct Blockchain Verification: Instead of relying on webhooks or third-party services, it directly queries the Solana blockchain for transaction data.
+2. Treasury Wallet Model: All payments go to a single treasury wallet, and the system identifies specific payments by:
+
+- Filtering for transactions that occurred after the payment request was created
+- Matching the exact payment amount
+
+3. Balance Differential Analysis: It examines the pre and post-transaction balances of the treasury wallet to determine the exact amount received, accounting for transaction fees.
+4. Small Variance Allowance: It allows for a small variance (< 1000 lamports) to account for network fees that might slightly reduce the received amount.
+
+**Security Considerations**
+
+Idempotent Processing: The system is designed to prevent double-counting payments by updating the payment status once confirmed.
+Expiration Handling: Payment requests automatically expire after the configured timeout (default: 30 minutes).
+Input Validation: All input parameters are validated before processing.
+Error Handling: Robust error handling prevents system crashes from unexpected blockchain responses.
+Memory Management: The cleanup function prevents memory leaks from accumulating payment records.
