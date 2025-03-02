@@ -36,14 +36,13 @@ To integrate this with your Telegram app or website:
 **Core Architecture**
 The SolanaPaymentSystem class is the central component that manages all payment operations. Let me explain each part:
 
-Constructor and Configuration:
+**Constructor and Configuration:**
 ```
 constructor(config = {}) {
   this.network = config.network || 'devnet';
   this.connection = new Connection(clusterApiUrl(this.network), 'confirmed');
   
   this.pendingPayments = {};
-  
   this.treasuryWallet = config.treasuryWallet;
   
   if (!this.treasuryWallet) {
@@ -56,8 +55,7 @@ constructor(config = {}) {
     throw new Error('Invalid treasury wallet public key');
   }
   
-  this.paymentTimeout = config.paymentTimeout || 30 * 60 * 1000; // 30 minutes default
-  
-  this.pollInterval = config.pollInterval || 15 * 1000; // 15 seconds default
+  this.paymentTimeout = config.paymentTimeout || 30 * 60 * 1000; 
+  this.pollInterval = config.pollInterval || 15 * 1000; 
 }
 ```
